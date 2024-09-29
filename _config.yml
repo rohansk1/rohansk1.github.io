@@ -28,6 +28,7 @@ author:
   location         : "New Haven, CT"
   employer         : "Yale University"
   uri              : # URL
+  linkedin         : rohanskumar
   email            : "rohan.s.kumar@yale.edu" 
 
   # Academic websites
@@ -57,7 +58,6 @@ author:
   keybase          : # Username
   instagram        : # Username
   lastfm           : # Username
-  linkedin         : rohanskumar # Username
   mastodon         : # URL
   medium           : # URL
   pinterest        : # Username
