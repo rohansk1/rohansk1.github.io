@@ -28,7 +28,6 @@ author:
   location         : "New Haven, CT"
   employer         : "Yale University"
   uri              : # URL
-  linkedin         : rohanskumar
   email            : "rohan.s.kumar@yale.edu" 
 
   # Academic websites
@@ -49,6 +48,7 @@ author:
   stackoverflow    : # User number or user number and name (i.e., use "1" or "1/jeff-atwood")    
 
   # Social media
+  linkedin         : rohanskumar
   bluesky          : # Replace this with you Bluesky username
   facebook         : # Username
   flickr           : # Username
@@ -75,12 +75,12 @@ author:
 
 # Publication Category - The following the list of publication categories and their headings
 publication_category:
-  books:
-    title: 'Books'
-  manuscripts:
-    title: 'Journal Articles'    
+  # books:
+    # title: 'Books'
   conferences:
     title: 'Conference Papers'
+  # manuscripts:
+    # title: 'Journal Articles'
 
 # Site Settings
 teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
