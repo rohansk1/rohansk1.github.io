@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rohan S. Kumar</title>
-    <link rel="icon" href="/images/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300..500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -115,7 +114,7 @@
         /* ===== SOLAR SYSTEM ===== */
         .solar-system {
             position: relative;
-            width: 730px; height: 490px;
+            width: 620px; height: 420px;
         }
 
         .solar-center {
@@ -131,13 +130,13 @@
             border: 1px solid rgba(255,255,255,0.025);
         }
 
-        .orbit-path-1 { width: 300px; height: 210px; transform: translate(-50%, -50%); }
-        .orbit-path-2 { width: 440px; height: 308px; transform: translate(-50%, -50%); }
-        .orbit-path-3 { width: 600px; height: 420px; transform: translate(-50%, -50%); }
+        .orbit-path-1 { width: 240px; height: 168px; transform: translate(-50%, -50%); }
+        .orbit-path-2 { width: 360px; height: 252px; transform: translate(-50%, -50%); }
+        .orbit-path-3 { width: 500px; height: 350px; transform: translate(-50%, -50%); }
 
         /* ===== SUN ===== */
         .sun {
-            width: 68px; height: 68px;
+            width: 58px; height: 58px;
             border-radius: 50%;
             background: radial-gradient(circle at 38% 38%, var(--sun-core), var(--sun-warm) 50%, var(--sun-deep) 100%);
             cursor: pointer;
@@ -147,7 +146,7 @@
         }
 
         .sun::before {
-            content: ''; position: absolute; inset: -22px;
+            content: ''; position: absolute; inset: -18px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(245,158,66,0.22), transparent 70%);
             animation: sunGlow 5s ease-in-out infinite;
@@ -155,7 +154,7 @@
         }
 
         .sun::after {
-            content: ''; position: absolute; inset: -65px;
+            content: ''; position: absolute; inset: -55px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(245,158,66,0.06), transparent 65%);
             animation: sunGlow 5s ease-in-out infinite 0.5s;
@@ -165,8 +164,8 @@
         .sun:hover { transform: scale(1.1); }
 
         @keyframes sunBreathe {
-            0%, 100% { box-shadow: 0 0 35px rgba(245,158,66,0.25), 0 0 70px rgba(245,158,66,0.08); }
-            50% { box-shadow: 0 0 48px rgba(245,158,66,0.35), 0 0 95px rgba(245,158,66,0.12); }
+            0%, 100% { box-shadow: 0 0 30px rgba(245,158,66,0.25), 0 0 60px rgba(245,158,66,0.08); }
+            50% { box-shadow: 0 0 40px rgba(245,158,66,0.35), 0 0 80px rgba(245,158,66,0.12); }
         }
 
         @keyframes sunGlow {
@@ -178,7 +177,7 @@
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             font-family: 'Instrument Serif', serif;
-            font-size: 22px; color: var(--bg);
+            font-size: 19px; color: var(--bg);
             pointer-events: none; opacity: 0.8;
         }
 
@@ -191,7 +190,7 @@
         }
 
         .planet-orb {
-            width: 52px; height: 52px;
+            width: 44px; height: 44px;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             position: relative;
@@ -200,25 +199,25 @@
         }
 
         .planet-orb svg {
-            width: 21px; height: 21px;
+            width: 18px; height: 18px;
             position: relative; z-index: 2;
             transition: all 0.35s ease;
         }
 
         .planet-orb::before {
-            content: ''; position: absolute; inset: -10px;
+            content: ''; position: absolute; inset: -8px;
             border-radius: 50%; opacity: 0;
             transition: all 0.4s ease; pointer-events: none;
         }
 
         .planet-orb::after {
-            content: ''; position: absolute; inset: -28px;
+            content: ''; position: absolute; inset: -24px;
             border-radius: 50%; opacity: 0;
             transition: all 0.4s ease; pointer-events: none;
         }
 
         .planet-label {
-            position: absolute; top: calc(100% + 18px); left: 50%;
+            position: absolute; top: calc(100% + 16px); left: 50%;
             transform: translateX(-50%) translateY(4px);
             white-space: nowrap;
             font-family: 'JetBrains Mono', monospace;
@@ -230,7 +229,7 @@
 
         .planet-connector {
             position: absolute; top: calc(100% + 2px); left: 50%;
-            width: 1px; height: 14px;
+            width: 1px; height: 12px;
             opacity: 0; transition: all 0.35s ease;
             pointer-events: none;
         }
@@ -294,7 +293,7 @@
         .sun-panel {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0.92);
-            width: 380px;
+            width: 340px;
             background: rgba(10,10,16,0.94);
             backdrop-filter: blur(28px);
             -webkit-backdrop-filter: blur(28px);
@@ -597,11 +596,11 @@
         }
 
         @media (max-width: 700px) {
-            .solar-system { width: 420px; height: 320px; transform: scale(0.80); }
+            .solar-system { width: 360px; height: 300px; transform: scale(0.85); }
             .identity h1 { font-size: 18px; }
             .identity p { font-size: 10px; }
             .hero-footer { gap: 14px; flex-wrap: wrap; justify-content: center; max-width: 90vw; }
-            .sun-panel { width: 300px; padding: 24px; }
+            .sun-panel { width: 280px; padding: 24px; }
         }
     </style>
 </head>
@@ -772,9 +771,9 @@
         // ===== ORBITS =====
         const TILT = 0.35;
         const planets = [
-            { el: document.getElementById('planet-quantum'), r: 150, speed: 0.0055, angle: 0 },
-            { el: document.getElementById('planet-ai'), r: 220, speed: 0.0035, angle: 2.094 },
-            { el: document.getElementById('planet-music'), r: 300, speed: 0.0022, angle: 4.189 },
+            { el: document.getElementById('planet-quantum'), r: 120, speed: 0.0055, angle: 0 },
+            { el: document.getElementById('planet-ai'), r: 180, speed: 0.0035, angle: 2.094 },
+            { el: document.getElementById('planet-music'), r: 250, speed: 0.0022, angle: 4.189 },
         ];
 
         function tick() {
@@ -787,7 +786,7 @@
                 p.el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
 
                 const scale = 0.8 + (depth + 1) * 0.13;
-                const opacity = 0.55 + (depth + 1) * 0.225;
+                const opacity = 0.45 + (depth + 1) * 0.275;
                 const orb = p.el.querySelector('.planet-orb');
                 orb.style.opacity = opacity;
 
@@ -839,10 +838,10 @@
         (() => {
             const MIN_INTERVAL = 10000;
             const MAX_INTERVAL = 25000;
-            const G = 9000;          // gravity strength
-            const MIN_DIST = 95;     // accel clamp only
+            const G = 8000;          // gravity strength
+            const MIN_DIST = 80;     // accel clamp only
             const SPEED = 8;         // px/frame
-            const MAX_LIFE = 6500;
+            const MAX_LIFE = 5500;
 
             function getSunCenter() {
                 const s = document.getElementById('sun');
@@ -877,7 +876,7 @@
                 // so gravity just bends the path — it can never pull the star in.
                 // We check the perpendicular distance of the straight-line path
                 // from the sun and shift outward if too close.
-                const MIN_PERP = 360; // min perpendicular distance of trajectory line from sun
+                const MIN_PERP = 300; // min perpendicular distance of trajectory line from sun
 
                 let px, py, ex, ey;
                 const side = Math.floor(Math.random() * 4);
