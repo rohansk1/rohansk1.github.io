@@ -736,17 +736,6 @@
                 </a>
             </div>
         </section>
-
-        <section class="below" id="playground">
-            <div class="section-header reveal">
-                <span class="section-number">02</span>
-                <h2 class="section-title">Playground</h2>
-                <div class="section-line"></div>
-            </div>
-            <p class="playground-hint reveal" style="font-size:14px;color:var(--text-dim);line-height:1.7;max-width:480px;">
-                A corner for mini games, interactive experiments, and things I've built for fun. More coming soon.
-            </p>
-        </section>
     </div>
 
     <footer>
@@ -996,7 +985,7 @@
 
                     const toast = document.createElement('div');
                     toast.className = 'catch-toast';
-                    toast.textContent = '✦ you caught it — entering the playground';
+                    toast.textContent = '✦ you caught it';
                     toast.style.left = e.clientX + 'px';
                     toast.style.top = e.clientY + 'px';
                     document.body.appendChild(toast);
@@ -1006,7 +995,6 @@
                     star.style.transition = 'opacity 0.15s';
                     setTimeout(() => star.remove(), 200);
 
-                    setTimeout(() => { window.location.href = '#playground'; }, 1200);
                 });
 
                 function step() {
