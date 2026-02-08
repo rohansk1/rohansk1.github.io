@@ -12,7 +12,7 @@ title                    : "Rohan's Homepage"
 title_separator          : "-"
 name                     : &name "Rohan S. Kumar"
 description              : &description "personal description"
-url                      : https://rohansk1.github.io/
+url                      : https://rohanskumar.com
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "rohansk1/rohansk1.github.io"
 
