@@ -602,6 +602,9 @@
             .identity p { font-size: 10px; }
             .hero-footer { gap: 14px; flex-wrap: wrap; justify-content: center; max-width: 90vw; }
             .sun-panel { width: 300px; padding: 24px; }
+            .orbit-path-1 { width: 200px; height: 140px; }
+            .orbit-path-2 { width: 300px; height: 210px; }
+            .orbit-path-3 { width: 420px; height: 294px; }
         }
     </style>
 </head>
@@ -771,11 +774,25 @@
 
         // ===== ORBITS =====
         const TILT = 0.35;
+        const RADII = {
+            desktop: [150, 220, 300],
+            mobile:  [100, 150, 210],
+        };
+
+        function isMobile() { return window.innerWidth <= 700; }
+
         const planets = [
-            { el: document.getElementById('planet-quantum'), r: 150, speed: 0.0055, angle: 0 },
-            { el: document.getElementById('planet-ai'), r: 220, speed: 0.0035, angle: 2.094 },
-            { el: document.getElementById('planet-music'), r: 300, speed: 0.0022, angle: 4.189 },
+            { el: document.getElementById('planet-quantum'), speed: 0.0055, angle: 0 },
+            { el: document.getElementById('planet-ai'),      speed: 0.0035, angle: 2.094 },
+            { el: document.getElementById('planet-music'),    speed: 0.0022, angle: 4.189 },
         ];
+
+        function applyRadii() {
+            const r = isMobile() ? RADII.mobile : RADII.desktop;
+            planets.forEach((p, i) => p.r = r[i]);
+        }
+        applyRadii();
+        window.addEventListener('resize', applyRadii);
 
         function tick() {
             planets.forEach(p => {
