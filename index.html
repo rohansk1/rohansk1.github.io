@@ -434,6 +434,7 @@
         .papers-grid { display: flex; flex-direction: column; gap: 16px; }
 
         .paper-card {
+            display: block;
             padding: 28px;
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 12px;
@@ -714,24 +715,25 @@
                 <div class="section-line"></div>
             </div>
             <div class="papers-grid">
-                <div class="paper-card reveal">
-                    <div class="paper-venue">Preprint · 2025</div>
-                    <div class="paper-title">Your Paper Title Goes Here</div>
-                    <div class="paper-authors">R.S. Kumar, Collaborator A., Collaborator B.</div>
+                <a class="paper-card reveal" href="https://arxiv.org/abs/2208.13380" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
+                    <div class="paper-venue">MICRO · 2022</div>
+                    <div class="paper-title">Let Each Quantum Bit Choose Its Basis Gates</div>
+                    <div class="paper-authors">S.F. Lin, S. Sussman, C. Duckering, P.S. Mundada, J.M. Baker, R.S. Kumar, A.A. Houck, F.T. Chong</div>
                     <div class="paper-tags">
                         <span class="paper-tag">quantum computing</span>
-                        <span class="paper-tag">error correction</span>
+                        <span class="paper-tag">circuit optimization</span>
                     </div>
-                </div>
-                <div class="paper-card reveal">
-                    <div class="paper-venue">Conference · 2024</div>
-                    <div class="paper-title">Another Paper Title Goes Here</div>
-                    <div class="paper-authors">R.S. Kumar, Collaborator C., Collaborator D.</div>
+                </a>
+                <a class="paper-card reveal" href="https://arxiv.org/abs/2302.00788" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
+                    <div class="paper-venue">arXiv Preprint · 2023</div>
+                    <div class="paper-title">A Supplemental Investigation of Non-Linearity in Quantum Generative Models with Respect to Simulatability and Optimization</div>
+                    <div class="paper-authors">K. Gili*, R.S. Kumar*, M. Sveistrys, C.J. Ballance</div>
+                    <div class="paper-note" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-faint);margin-top:2px;margin-bottom:10px;">* equal contribution</div>
                     <div class="paper-tags">
-                        <span class="paper-tag">quantum algorithms</span>
-                        <span class="paper-tag">optimization</span>
+                        <span class="paper-tag">quantum computing</span>
+                        <span class="paper-tag">generative models</span>
                     </div>
-                </div>
+                </a>
             </div>
         </section>
 
