@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rohan S. Kumar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0c;
+            --bg-elevated: #111115;
+            --bg-card: #16161a;
+            --border: rgba(255,255,255,0.06);
+            --border-hover: rgba(255,255,255,0.12);
+            --text-primary: #e8e6e3;
+            --text-secondary: #8a8a8e;
+            --text-tertiary: #5a5a5e;
+            --accent: #6eb6ff;
+            --accent-dim: rgba(110,182,255,0.08);
+            --accent-glow: rgba(110,182,255,0.15);
+            --warm: #f4a261;
+            --warm-dim: rgba(244,162,97,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== AMBIENT BACKGROUND ===== */
+        .ambient-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0;
+            animation: orbBreathe 8s ease-in-out infinite;
+        }
+
+        .ambient-orb:nth-child(1) {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(110,182,255,0.07), transparent 70%);
+            top: -10%;
+            right: -5%;
+            animation-delay: 0s;
+        }
+
+        .ambient-orb:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(244,162,97,0.04), transparent 70%);
+            bottom: 20%;
+            left: -10%;
+            animation-delay: 4s;
+        }
+
+        .ambient-orb:nth-child(3) {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(110,182,255,0.04), transparent 70%);
+            bottom: -5%;
+            right: 30%;
+            animation-delay: 2s;
+        }
+
+        @keyframes orbBreathe {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.15); }
+        }
+
+        /* ===== GRAIN OVERLAY ===== */
+        .grain {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-size: 128px;
+        }
+
+        /* ===== LAYOUT ===== */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 0;
+            backdrop-filter: blur(20px) saturate(1.2);
+            -webkit-backdrop-filter: blur(20px) saturate(1.2);
+            background: rgba(10,10,12,0.7);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-name {
+            font-family: 'Instrument Serif', serif;
+            font-size: 20px;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+        }
+
+        .hero-content {
+            width: 100%;
+        }
+
+        .hero-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 300;
+            color: var(--text-tertiary);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: dotPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.4; box-shadow: 0 0 0 0 rgba(110,182,255,0.3); }
+            50% { opacity: 1; box-shadow: 0 0 12px 3px rgba(110,182,255,0.2); }
+        }
+
+        .hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 400;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 28px;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--accent);
+            position: relative;
+        }
+
+        .hero-description {
+            font-size: 17px;
+            color: var(--text-secondary);
+            max-width: 520px;
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        .hero-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 400;
+            transition: all 0.25s ease;
+            background: transparent;
+        }
+
+        .hero-link:hover {
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+            background: var(--accent-dim);
+            box-shadow: 0 0 20px rgba(110,182,255,0.05);
+            transform: translateY(-1px);
+        }
+
+        .hero-link svg {
+            width: 14px;
+            height: 14px;
+            opacity: 0.6;
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .section-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent);
+            opacity: 0.5;
+        }
+
+        .section-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 32px;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ===== PAPER CARDS ===== */
+        .papers-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .paper-card {
+            padding: 28px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg-elevated);
+            transition: all 0.3s ease;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .paper-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-glow), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .paper-card:hover::before { opacity: 1; }
+
+        .paper-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .paper-venue {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+
+        .paper-title {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .paper-authors {
+            font-size: 13px;
+            color: var(--text-tertiary);
+            margin-bottom: 12px;
+        }
+
+        .paper-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .paper-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: var(--accent-dim);
+            color: var(--accent);
+            letter-spacing: 0.04em;
+        }
+
+        /* ===== ABOUT GRID ===== */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .about-text {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            grid-column: 1 / -1;
+            max-width: 640px;
+        }
+
+        .info-card {
+            padding: 24px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg-elevated);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--accent-glow), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .info-card:hover::before { opacity: 1; }
+
+        .info-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .info-card-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-tertiary);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .info-card-value {
+            font-size: 15px;
+            color: var(--text-primary);
+            font-weight: 400;
+        }
+
+        .info-card-value a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .info-card-value a:hover { opacity: 0.7; }
+
+        /* ===== PLAYGROUND ===== */
+        .playground-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .playground-card {
+            padding: 32px 28px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg-elevated);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .playground-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--warm-dim), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .playground-card:hover::before { opacity: 1; }
+
+        .playground-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .playground-emoji {
+            font-size: 28px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .playground-name {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .playground-desc {
+            font-size: 13px;
+            color: var(--text-tertiary);
+            line-height: 1.5;
+        }
+
+        .playground-status {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            margin-top: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--warm);
+            opacity: 0.6;
+            letter-spacing: 0.05em;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 60px 0 40px;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-left {
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-right a {
+            color: var(--text-tertiary);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .footer-right a:hover { color: var(--text-secondary); }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .nav-links { gap: 20px; }
+            .nav-links a { font-size: 12px; }
+            .about-content { grid-template-columns: 1fr; }
+            .playground-grid { grid-template-columns: 1fr; }
+            .hero { padding: 100px 0 60px; }
+            .footer-content { flex-direction: column; gap: 16px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-bg">
+        <div class="ambient-orb"></div>
+        <div class="ambient-orb"></div>
+        <div class="ambient-orb"></div>
+    </div>
+    <div class="grain"></div>
+
+    <nav>
+        <div class="container">
+            <a href="#" class="nav-name">RSK</a>
+            <ul class="nav-links">
+                <li><a href="#papers">Papers</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#playground">Playground</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-label">
+                    <span class="status-dot"></span>
+                    Yale University
+                </div>
+                <h1>Rohan S.<br/>Kumar</h1>
+                <p class="hero-description">
+                    Accelerating practical quantum computing. Building the bridge between theoretical possibility and engineered reality.
+                </p>
+                <div class="hero-links">
+                    <a href="mailto:rohan.s.kumar@yale.edu" class="hero-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        Email
+                    </a>
+                    <a href="https://scholar.google.com/citations?user=T7_uQrsAAAAJ&hl=en" class="hero-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                        Scholar
+                    </a>
+                    <a href="https://github.com/rohansk1" class="hero-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                        GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/rohanskumar" class="hero-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                        LinkedIn
+                    </a>
+                    <a href="#" class="hero-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                        CV
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAPERS -->
+        <section id="papers">
+            <div class="section-header reveal">
+                <span class="section-number">01</span>
+                <h2 class="section-title">Papers</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="papers-grid">
+                <div class="paper-card reveal">
+                    <div class="paper-venue">Preprint · 2025</div>
+                    <div class="paper-title">Your Paper Title Goes Here</div>
+                    <div class="paper-authors">R.S. Kumar, Collaborator A., Collaborator B.</div>
+                    <div class="paper-tags">
+                        <span class="paper-tag">quantum computing</span>
+                        <span class="paper-tag">error correction</span>
+                    </div>
+                </div>
+                <div class="paper-card reveal">
+                    <div class="paper-venue">Conference Name · 2024</div>
+                    <div class="paper-title">Another Paper Title Goes Here</div>
+                    <div class="paper-authors">R.S. Kumar, Collaborator C., Collaborator D.</div>
+                    <div class="paper-tags">
+                        <span class="paper-tag">quantum algorithms</span>
+                        <span class="paper-tag">optimization</span>
+                    </div>
+                </div>
+                <div class="paper-card reveal">
+                    <div class="paper-venue">Journal Name · 2024</div>
+                    <div class="paper-title">A Third Paper Title For Placeholder</div>
+                    <div class="paper-authors">Collaborator E., R.S. Kumar, Collaborator F.</div>
+                    <div class="paper-tags">
+                        <span class="paper-tag">compilation</span>
+                        <span class="paper-tag">quantum circuits</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about">
+            <div class="section-header reveal">
+                <span class="section-number">02</span>
+                <h2 class="section-title">About</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="about-content">
+                <p class="about-text reveal">
+                    I'm a researcher at Yale University working on practical quantum computing — making quantum machines do useful things sooner rather than later. My work spans error correction, circuit optimization, and compilation, always with an eye toward bridging the gap between theory and real hardware.
+                </p>
+                <div class="info-card reveal">
+                    <div class="info-card-label">Location</div>
+                    <div class="info-card-value">New Haven, CT</div>
+                </div>
+                <div class="info-card reveal">
+                    <div class="info-card-label">Affiliation</div>
+                    <div class="info-card-value">Yale University</div>
+                </div>
+                <div class="info-card reveal">
+                    <div class="info-card-label">ORCID</div>
+                    <div class="info-card-value"><a href="https://orcid.org/0009-0001-6417-1971">0009-0001-6417-1971</a></div>
+                </div>
+                <div class="info-card reveal">
+                    <div class="info-card-label">Interests</div>
+                    <div class="info-card-value">Quantum error correction, circuit compilation, optimization</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PLAYGROUND -->
+        <section id="playground">
+            <div class="section-header reveal">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Playground</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="playground-grid">
+                <a href="#" class="playground-card reveal">
+                    <span class="playground-emoji">🎮</span>
+                    <div class="playground-name">Mini Game #1</div>
+                    <div class="playground-desc">A little something I built for fun. Click to play.</div>
+                    <div class="playground-status">◆ coming soon</div>
+                </a>
+                <a href="#" class="playground-card reveal">
+                    <span class="playground-emoji">🧪</span>
+                    <div class="playground-name">Interactive Demo</div>
+                    <div class="playground-desc">Explore a quantum concept, visualized.</div>
+                    <div class="playground-status">◆ coming soon</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-content reveal">
+                <div class="footer-left">
+                    © 2026 Rohan S. Kumar
+                </div>
+                <div class="footer-right">
+                    <a href="mailto:rohan.s.kumar@yale.edu">Email</a>
+                    <a href="https://github.com/rohansk1">GitHub</a>
+                    <a href="https://scholar.google.com/citations?user=T7_uQrsAAAAJ&hl=en">Scholar</a>
+                    <a href="https://twitter.com/r0han_kumar">X</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Card spotlight effect — follows mouse
+        document.querySelectorAll('.paper-card, .info-card, .playground-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                card.style.setProperty('--mouse-x', `${x}%`);
+                card.style.setProperty('--mouse-y', `${y}%`);
+            });
+        });
+
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, i * 80);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
