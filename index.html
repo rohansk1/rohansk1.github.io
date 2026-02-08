@@ -762,11 +762,11 @@
         // ===== STARS =====
         (() => {
             const c = document.getElementById('stars');
-            for (let i = 0; i < 180; i++) {
+            for (let i = 0; i < 250; i++) {
                 const s = document.createElement('div');
                 s.className = 'star';
                 const sz = Math.random() < 0.8 ? 1 : Math.random() < 0.7 ? 1.5 : 2;
-                const baseOp = 0.12 + Math.random() * 0.4;
+                const baseOp = 0.2 + Math.random() * 0.5;
                 s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${baseOp};`;
                 c.appendChild(s);
             }
@@ -1027,5 +1027,7 @@
             setTimeout(launchStar, 4000 + Math.random() * 6000);
         })();
     </script>
+    <script data-goatcounter="https://rohanskumar.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
