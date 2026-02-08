@@ -164,62 +164,6 @@
 
         .sun:hover { transform: scale(1.1); }
 
-        /* Solar flares */
-        .sun-flare {
-            position: absolute;
-            width: 6px; height: 18px;
-            border-radius: 3px;
-            background: linear-gradient(to top, rgba(245,158,66,0.9), rgba(255,220,140,0.6), transparent);
-            opacity: 0;
-            pointer-events: none;
-            filter: blur(1.5px);
-            z-index: 1;
-        }
-
-        .sun-flare-1 {
-            top: -10px; left: 50%;
-            transform: translateX(-50%) rotate(0deg);
-            animation: solarFlare 7s ease-in-out 2s infinite;
-        }
-
-        .sun-flare-2 {
-            top: 50%; right: -10px;
-            transform: translateY(-50%) rotate(90deg);
-            animation: solarFlare 8s ease-in-out 4.5s infinite;
-        }
-
-        .sun-flare-3 {
-            bottom: -8px; left: 10px;
-            transform: rotate(220deg);
-            animation: solarFlare 9s ease-in-out 7s infinite;
-        }
-
-        @keyframes solarFlare {
-            0%, 15%, 35%, 100% { opacity: 0; transform: translateX(-50%) scaleY(1); }
-            20% { opacity: 0.9; transform: translateX(-50%) scaleY(1.8); }
-            30% { opacity: 0.3; transform: translateX(-50%) scaleY(1.2); }
-        }
-
-        .sun-flare-2 {
-            animation-name: solarFlare2;
-        }
-
-        @keyframes solarFlare2 {
-            0%, 15%, 35%, 100% { opacity: 0; transform: translateY(-50%) rotate(90deg) scaleY(1); }
-            20% { opacity: 0.9; transform: translateY(-50%) rotate(90deg) scaleY(1.8); }
-            30% { opacity: 0.3; transform: translateY(-50%) rotate(90deg) scaleY(1.2); }
-        }
-
-        .sun-flare-3 {
-            animation-name: solarFlare3;
-        }
-
-        @keyframes solarFlare3 {
-            0%, 15%, 35%, 100% { opacity: 0; transform: rotate(220deg) scaleY(1); }
-            20% { opacity: 0.9; transform: rotate(220deg) scaleY(1.8); }
-            30% { opacity: 0.3; transform: rotate(220deg) scaleY(1.2); }
-        }
-
         @keyframes sunBreathe {
             0%, 100% { box-shadow: 0 0 35px rgba(245,158,66,0.25), 0 0 70px rgba(245,158,66,0.08); }
             50% { box-shadow: 0 0 48px rgba(245,158,66,0.35), 0 0 95px rgba(245,158,66,0.12); }
@@ -682,9 +626,6 @@
 
             <div class="solar-center">
                 <div class="sun" id="sun">
-                    <span class="sun-flare sun-flare-1"></span>
-                    <span class="sun-flare sun-flare-2"></span>
-                    <span class="sun-flare sun-flare-3"></span>
                     <span class="sun-label">R</span>
                 </div>
             </div>
