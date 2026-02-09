@@ -871,65 +871,90 @@
                 const vh = window.innerHeight;
                 const sun = getSunCenter();
 
-                // Strategy: pick start & exit on opposite edges so the star
-                // FLIES ACROSS the screen. Velocity is mostly tangential to the sun
-                // so gravity just bends the path — it can never pull the star in.
-                // We check the perpendicular distance of the straight-line path
-                // from the sun and shift outward if too close.
-                const MIN_PERP = 300; // min perpendicular distance of trajectory line from sun
+                // Strategy: always cross the viewport side-to-side with a constrained
+                // horizontal tilt. We still use the same perpendicular-distance check
+                // to keep trajectories away from the sun.
+                const BASE_MIN_PERP = 300;
+                const MIN_PERP = Math.min(BASE_MIN_PERP, vh * 0.42);
+                const MAX_ANGLE = 30; // max degrees from horizontal
+                const MAX_SLOPE = Math.tan(MAX_ANGLE * Math.PI / 180);
+                const MAX_ATTEMPTS = 10;
+                const EXIT_Y_MIN = -0.2 * vh;
+                const EXIT_Y_MAX = 1.2 * vh;
 
                 let px, py, ex, ey;
-                const side = Math.floor(Math.random() * 4);
+                let ux = 1;
+                let uy = 0;
+                let valid = false;
+                let attempts = 0;
 
-                if (side === 0) { // enter left, exit right
-                    px = -40; py = vh * (0.05 + Math.random() * 0.55);
-                    ex = vw + 40; ey = vh * (0.1 + Math.random() * 0.6);
-                } else if (side === 1) { // enter right, exit left
-                    px = vw + 40; py = vh * (0.05 + Math.random() * 0.55);
-                    ex = -40; ey = vh * (0.1 + Math.random() * 0.6);
-                } else if (side === 2) { // enter top, exit bottom-ish
-                    px = vw * (0.1 + Math.random() * 0.8); py = -40;
-                    ex = vw * (0.1 + Math.random() * 0.8); ey = vh + 40;
-                } else { // enter bottom, exit top-ish (rare, looks like upward streak)
-                    px = vw * (0.1 + Math.random() * 0.8); py = vh + 40;
-                    ex = vw * (0.1 + Math.random() * 0.8); ey = -40;
+                while (attempts < MAX_ATTEMPTS && !valid) {
+                    attempts++;
+
+                    const goingRight = Math.random() < 0.5;
+                    px = goingRight ? -40 : vw + 40;
+                    ex = goingRight ? vw + 40 : -40;
+
+                    // Wide vertical entry range so stars can originate from top/mid/bottom bands.
+                    py = vh * (0.02 + Math.random() * 0.93);
+
+                    // Bias toward flatter trajectories while allowing stronger diagonals.
+                    const angleRad = (Math.random() ** 1.5) * MAX_ANGLE * (Math.PI / 180);
+                    const tilt = (Math.random() < 0.5 ? -1 : 1) * angleRad;
+                    ey = py + Math.abs(ex - px) * Math.tan(tilt);
+
+                    // Direction vector (start -> exit).
+                    let dirX = ex - px;
+                    let dirY = ey - py;
+                    let dirLen = Math.sqrt(dirX * dirX + dirY * dirY);
+                    ux = dirX / dirLen;
+                    uy = dirY / dirLen;
+
+                    // Perpendicular signed distance from sun to trajectory line.
+                    const toSunX = sun.x - px;
+                    const toSunY = sun.y - py;
+                    const perpDist = ux * toSunY - uy * toSunX;
+
+                    // Shift trajectory away if the line passes too close to sun.
+                    if (Math.abs(perpDist) < MIN_PERP) {
+                        const pnx = -uy;
+                        const pny = ux;
+                        const needed = (MIN_PERP - Math.abs(perpDist)) + 40;
+                        const sign = perpDist >= 0 ? -1 : 1;
+                        ex += pnx * needed * sign;
+                        ey += pny * needed * sign;
+                        px += pnx * needed * sign * 0.5;
+                        py += pny * needed * sign * 0.5;
+
+                        // Recompute direction after shift.
+                        dirX = ex - px;
+                        dirY = ey - py;
+                        dirLen = Math.sqrt(dirX * dirX + dirY * dirY);
+                        ux = dirX / dirLen;
+                        uy = dirY / dirLen;
+                    }
+
+                    const withinSlope = Math.abs(dirY) <= Math.abs(dirX) * MAX_SLOPE;
+                    const withinExitBand = ey >= EXIT_Y_MIN && ey <= EXIT_Y_MAX;
+                    valid = withinSlope && withinExitBand;
                 }
 
-                // Direction vector (start → exit)
-                let dirX = ex - px;
-                let dirY = ey - py;
-                const dirLen = Math.sqrt(dirX * dirX + dirY * dirY);
-                let ux = dirX / dirLen;
-                let uy = dirY / dirLen;
+                // Rare fallback: force a flat side-to-side line on whichever side is farther from the sun.
+                if (!valid) {
+                    const goingRight = Math.random() < 0.5;
+                    px = goingRight ? -40 : vw + 40;
+                    ex = goingRight ? vw + 40 : -40;
 
-                // Perpendicular (signed) distance from sun to the trajectory line.
-                // Cross product of direction unit vector with (sun - start) vector.
-                const toSunX = sun.x - px;
-                const toSunY = sun.y - py;
-                const perpDist = ux * toSunY - uy * toSunX;
+                    const topY = vh * 0.08;
+                    const bottomY = vh * 0.92;
+                    py = Math.abs(sun.y - topY) > Math.abs(sun.y - bottomY) ? topY : bottomY;
+                    ey = py;
 
-                // If line passes too close to sun, shift the exit point perpendicular
-                // to push the whole trajectory away.
-                if (Math.abs(perpDist) < MIN_PERP) {
-                    // Perpendicular unit vector (points 90° left of travel direction)
-                    const pnx = -uy;
-                    const pny = ux;
-                    // Shift away from the sun: if sun is to the left (perpDist > 0),
-                    // shift exit to the right (negative perp direction), and vice versa.
-                    const needed = (MIN_PERP - Math.abs(perpDist)) + 40;
-                    const sign = perpDist >= 0 ? -1 : 1;
-                    ex += pnx * needed * sign;
-                    ey += pny * needed * sign;
-                    // Also shift start point to keep trajectory angle natural
-                    px += pnx * needed * sign * 0.5;
-                    py += pny * needed * sign * 0.5;
-
-                    // Recompute direction
-                    dirX = ex - px;
-                    dirY = ey - py;
-                    const newLen = Math.sqrt(dirX * dirX + dirY * dirY);
-                    ux = dirX / newLen;
-                    uy = dirY / newLen;
+                    const dirX = ex - px;
+                    const dirY = ey - py;
+                    const dirLen = Math.sqrt(dirX * dirX + dirY * dirY);
+                    ux = dirX / dirLen;
+                    uy = dirY / dirLen;
                 }
 
                 let vx = ux * SPEED;
