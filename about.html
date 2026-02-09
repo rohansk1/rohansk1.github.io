@@ -1245,6 +1245,17 @@
         setTimeout(drawConstellation, 300);
     });
 
+    // ===== SCROLL REVEAL =====
+    const revealObs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                revealObs.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
     // ===== MAP =====
     const mapPins = [
         {
@@ -1305,64 +1316,55 @@
         },
     ];
 
-    const map = L.map('map', {
-        scrollWheelZoom: false,
-        zoomControl: true,
-        attributionControl: true,
-    });
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 19,
-    }).addTo(map);
-
-    // Add labels as separate layer so they sit on top
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
-        subdomains: 'abcd',
-        maxZoom: 19,
-        pane: 'overlayPane',
-    }).addTo(map);
-
-    const bounds = [];
-
-    mapPins.forEach(pin => {
-        const icon = L.divIcon({
-            className: '',
-            html: `<div class="map-pin-dot map-pin-${pin.category}"></div>`,
-            iconSize: [10, 10],
-            iconAnchor: [5, 5],
+    if (typeof L !== 'undefined') {
+        const map = L.map('map', {
+            scrollWheelZoom: false,
+            zoomControl: true,
+            attributionControl: true,
         });
 
-        const marker = L.marker(pin.coords, { icon }).addTo(map);
-        bounds.push(pin.coords);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19,
+        }).addTo(map);
 
-        const popupContent = `
-            <div class="popup-name">${pin.name}</div>
-            <div class="popup-date">${pin.period}</div>
-            <div class="popup-reason">${pin.reason}</div>
-            <div class="popup-desc">${pin.desc}</div>
-        `;
+        // Add labels as separate layer so they sit on top
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
+            subdomains: 'abcd',
+            maxZoom: 19,
+            pane: 'overlayPane',
+        }).addTo(map);
 
-        marker.bindPopup(popupContent, {
-            maxWidth: 260,
-            minWidth: 200,
-            closeButton: true,
+        const bounds = [];
+
+        mapPins.forEach(pin => {
+            const icon = L.divIcon({
+                className: '',
+                html: `<div class="map-pin-dot map-pin-${pin.category}"></div>`,
+                iconSize: [10, 10],
+                iconAnchor: [5, 5],
+            });
+
+            const marker = L.marker(pin.coords, { icon }).addTo(map);
+            bounds.push(pin.coords);
+
+            const popupContent = `
+                <div class="popup-name">${pin.name}</div>
+                <div class="popup-date">${pin.period}</div>
+                <div class="popup-reason">${pin.reason}</div>
+                <div class="popup-desc">${pin.desc}</div>
+            `;
+
+            marker.bindPopup(popupContent, {
+                maxWidth: 260,
+                minWidth: 200,
+                closeButton: true,
+            });
         });
-    });
 
-    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 4 });
-
-    // ===== SCROLL REVEAL =====
-    const revealObs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.classList.add('visible');
-                revealObs.unobserve(e.target);
-            }
-        });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+        map.fitBounds(bounds, { padding: [40, 40], maxZoom: 4 });
+    }
     </script>
     <script data-goatcounter="https://rohanskumar.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
