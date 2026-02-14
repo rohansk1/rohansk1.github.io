@@ -137,7 +137,7 @@
             position: absolute; top: 50%; left: 50%;
             border-radius: 50%;
             pointer-events: none;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.18);
         }
 
         .orbit-path-1 { width: 300px; height: 105px; transform: translate(-50%, -50%); }
@@ -824,7 +824,7 @@
         (() => {
             const c = document.getElementById('stars');
             const STAR_CONFIG = {
-                desktop: { count: 250, opacityBase: 0.2, opacityRange: 0.5 },
+                desktop: { count: 350, opacityBase: 0.35, opacityRange: 0.55 },
                 mobile:  { count: 170, opacityBase: 0.2, opacityRange: 0.3 },
             };
 
@@ -841,7 +841,7 @@
                 for (let i = 0; i < cfg.count; i++) {
                     const s = document.createElement('div');
                     s.className = 'star';
-                    const sz = Math.random() < 0.8 ? 1 : Math.random() < 0.7 ? 1.5 : 2;
+                    const sz = Math.random() < 0.6 ? 1.5 : Math.random() < 0.7 ? 2 : 2.5;
                     const op = cfg.opacityBase + Math.random() * cfg.opacityRange;
                     s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${op};`;
                     c.appendChild(s);
