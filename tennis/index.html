@@ -231,7 +231,7 @@
     $('#signOut').onclick = async () => { await sb.auth.signOut(); };
     const { data: profile } = await sb
       .from('profiles')
-      .select('id, name, phone, email, elo, wins, losses')
+      .select('id, name, elo, wins, losses')
       .eq('id', currentUser.id)
       .maybeSingle();
     renderProfile(profile);
@@ -286,19 +286,11 @@
   }
 
   function profileFormHtml(profile) {
-    const name  = (profile && profile.name)  || '';
-    const phone = (profile && profile.phone) || '';
-    const email = (profile && profile.email) || (currentUser && currentUser.email) || '';
+    const name = (profile && profile.name) || '';
     return `
       <form id="profileForm" class="stack-form">
         <label>Name <span class="req">*</span>
           <input type="text" id="pfName" value="${esc(name)}" placeholder="Your name" required>
-        </label>
-        <label>Phone (optional — shown to other players for challenges)
-          <input type="tel" id="pfPhone" value="${esc(phone)}" placeholder="+1 555 123 4567">
-        </label>
-        <label>Contact email (optional)
-          <input type="email" id="pfEmail" value="${esc(email)}" placeholder="you@email.com">
         </label>
         <div class="form-actions">
           <button class="btn" type="submit">Save</button>
@@ -312,15 +304,13 @@
     if (!form) return;
     form.onsubmit = async (e) => {
       e.preventDefault();
-      const name  = $('#pfName').value.trim();
-      const phone = $('#pfPhone').value.trim() || null;
-      const email = $('#pfEmail').value.trim() || null;
+      const name = $('#pfName').value.trim();
       const msg = $('#pfMsg');
       if (!name) return;
       msg.textContent = 'Saving…';
       const res = profile
-        ? await sb.from('profiles').update({ name, phone, email }).eq('id', currentUser.id)
-        : await sb.from('profiles').insert({ id: currentUser.id, name, phone, email });
+        ? await sb.from('profiles').update({ name }).eq('id', currentUser.id)
+        : await sb.from('profiles').insert({ id: currentUser.id, name });
       if (res.error) { msg.textContent = 'Error: ' + res.error.message; return; }
       msg.textContent = '✓ Saved';
       await refreshAuth();
