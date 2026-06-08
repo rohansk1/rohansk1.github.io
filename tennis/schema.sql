@@ -19,6 +19,7 @@
 drop view     if exists public.players cascade;
 drop table    if exists public.matches cascade;
 drop table    if exists public.profiles cascade;
+drop table    if exists public.join_requests cascade;
 drop function if exists public.apply_match_elo() cascade;
 drop function if exists public.apply_match_elo_insert() cascade;
 drop function if exists public.reverse_match_elo_delete() cascade;
@@ -181,3 +182,19 @@ create trigger trg_enforce_email_allowlist
 insert into public.allowed_emails (email) values
   ('rohankumar8551@gmail.com')
 on conflict (email) do nothing;
+
+-- ---------- access requests (self-service "request to join") ----------
+-- A not-yet-approved person can submit their email; the league-access Edge Function
+-- emails Rohan an approve link. Only the server (service role) can read this table.
+create table public.join_requests (
+  id         uuid primary key default gen_random_uuid(),
+  email      text not null,
+  token      uuid not null default gen_random_uuid(),
+  status     text not null default 'pending',
+  created_at timestamptz not null default now()
+);
+alter table public.join_requests enable row level security;
+revoke all on public.join_requests from anon, authenticated;
+grant insert (email) on public.join_requests to anon, authenticated;
+create policy "Anyone can request access"
+  on public.join_requests for insert to anon, authenticated with check (true);

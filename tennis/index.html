@@ -274,8 +274,16 @@
       if (!email) return;
       const { error } = await sb.auth.signInWithOtp({ email });
       if (error) {
-        // Most common reason for a new email is "not on the whitelist".
-        authBox.innerHTML = `<span class="muted">Couldn't send a link. If you're new, your email may not be approved yet — ask Rohan to add you.</span>`;
+        // A new email failing is almost always "not on the whitelist" — offer to request access.
+        if (confirm("You're not approved for the league yet.\n\nRequest access from Rohan?")) {
+          const r = await sb.from('join_requests').insert({ email });
+          authBox.innerHTML = r.error
+            ? `<span class="muted">Couldn't send the request — try again later.</span>`
+            : `<span class="muted">✓ Request sent. You'll be able to sign in once Rohan approves you.</span>`;
+        } else {
+          authBox.innerHTML = `<button class="btn" id="showLogin2">Sign in</button>`;
+          $('#showLogin2').onclick = showLoginForm;
+        }
       } else {
         authBox.innerHTML = `<span class="muted">✓ Check ${esc(email)} for your login link.</span>`;
       }
