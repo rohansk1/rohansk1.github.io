@@ -13,7 +13,8 @@
 //   * Set one secret in the dashboard: GMAIL_APP_PASSWORD (the Gmail app password).
 //     SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are injected automatically.
 // -------------------------------------------------------------------------
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "npm:@supabase/supabase-js@2";
 import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
