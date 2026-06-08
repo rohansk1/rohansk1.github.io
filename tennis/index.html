@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tennis League — Rohan Kumar</title>
+<link rel="icon" href="/images/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300..500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --bg: #06060a;
+    --panel: #0f0f17;
+    --panel-2: #14141d;
+    --text: #e2e0dd;
+    --text-dim: #8a8a92;
+    --text-faint: #56565e;
+    --tennis: #c8f04d;
+    --line: rgba(255,255,255,0.07);
+    --danger: #f4766a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+  .nebula {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  }
+  .nebula::before {
+    content: ''; position: absolute;
+    width: 700px; height: 700px; top: -25%; right: -15%;
+    background: radial-gradient(circle, rgba(200,240,77,0.05), transparent 70%);
+    border-radius: 50%; filter: blur(90px);
+  }
+  a { color: inherit; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+  /* ===== nav ===== */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 0; border-bottom: 1px solid var(--line); margin-bottom: 40px;
+  }
+  .home-link {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--text-dim); text-decoration: none; letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .home-link:hover { color: var(--text); }
+  #authArea { display: flex; align-items: center; gap: 12px; }
+  .email { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+  /* ===== hero ===== */
+  .hero { text-align: center; margin-bottom: 44px; }
+  .hero .ball { font-size: 34px; line-height: 1; }
+  .hero h1 {
+    font-family: 'Instrument Serif', serif; font-weight: 400;
+    font-size: 44px; letter-spacing: -0.02em; margin-top: 6px;
+  }
+  .hero p {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 300;
+    color: var(--text-dim); letter-spacing: 0.05em; margin-top: 10px;
+  }
+
+  /* ===== cards ===== */
+  .card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 14px; padding: 22px; margin-bottom: 24px;
+  }
+  .card h2, .card h3 {
+    font-family: 'Instrument Serif', serif; font-weight: 400; letter-spacing: -0.01em;
+  }
+  .card h2 { font-size: 24px; }
+  .card h3 { font-size: 20px; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 400;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-faint);
+    margin-bottom: 16px;
+  }
+  .muted { color: var(--text-dim); font-size: 13px; }
+  .req { color: var(--tennis); }
+
+  /* ===== leaderboard ===== */
+  .lb-head, .lb-row {
+    display: grid; grid-template-columns: 36px 1fr 64px 64px;
+    align-items: center; gap: 8px; padding: 12px 6px;
+  }
+  .lb-head {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-faint);
+    padding-top: 0; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+  }
+  .lb-row { border-bottom: 1px solid rgba(255,255,255,0.035); }
+  .lb-row:last-child { border-bottom: none; }
+  .lb-row .rank { font-family: 'JetBrains Mono', monospace; color: var(--text-faint); font-size: 13px; }
+  .lb-row:nth-child(2) .rank { color: var(--tennis); }
+  .pname { font-weight: 500; }
+  .elo { font-family: 'JetBrains Mono', monospace; color: var(--tennis); font-size: 14px; }
+  .record { font-family: 'JetBrains Mono', monospace; color: var(--text-dim); font-size: 13px; }
+
+  /* ===== forms / buttons ===== */
+  .btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.03em;
+    background: var(--tennis); color: #0b0b06; border: none; border-radius: 8px;
+    padding: 9px 16px; cursor: pointer; font-weight: 400; transition: opacity 0.2s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn.ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--line); }
+  .btn.ghost:hover { color: var(--text); opacity: 1; }
+  .inline-form { display: flex; gap: 8px; }
+  .stack-form { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
+  .stack-form label {
+    display: flex; flex-direction: column; gap: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim);
+    letter-spacing: 0.03em;
+  }
+  input {
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px;
+    padding: 10px 12px; color: var(--text); outline: none; transition: border-color 0.2s;
+  }
+  input:focus { border-color: rgba(200,240,77,0.4); }
+  .form-actions { display: flex; align-items: center; gap: 12px; }
+  .profile-summary { display: flex; align-items: center; justify-content: space-between; }
+  .profile-summary h3 { margin-bottom: 2px; }
+
+  footer {
+    text-align: center; padding: 40px 0 30px; margin-top: 20px;
+    border-top: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint);
+    letter-spacing: 0.05em;
+  }
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 34px; }
+    .email { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="nebula"></div>
+<div class="wrap">
+  <nav>
+    <a href="/" class="home-link">← rohanskumar.com</a>
+    <div id="authArea"></div>
+  </nav>
+
+  <div class="hero">
+    <div class="ball">🎾</div>
+    <h1>Tennis League</h1>
+    <p>challenge · play · climb the ladder</p>
+  </div>
+
+  <div class="card" id="profileCard" style="display:none;"></div>
+
+  <div class="card">
+    <div class="section-label">Leaderboard</div>
+    <div id="leaderboard"><p class="muted">Loading…</p></div>
+  </div>
+
+  <p class="muted" style="text-align:center; margin-bottom:30px;">
+    Match logging &amp; challenges are coming next. For now, sign in to claim your spot.
+  </p>
+
+  <footer>RSK Tennis League · powered by ELO</footer>
+</div>
+
+<script>
+  // ---- Supabase config (publishable key — safe to be public; protected by RLS) ----
+  const SUPABASE_URL = 'https://ggebhuxjelhqhjtkvhkl.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_vOGk9AieEHNoeCi4ot53pA_TeJcmmXZ';
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g,
+    c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  let currentUser = null;
+
+  // ---------- leaderboard (public) ----------
+  async function loadLeaderboard() {
+    const box = $('#leaderboard');
+    const { data, error } = await sb
+      .from('profiles')
+      .select('id, name, elo, wins, losses')
+      .order('elo', { ascending: false });
+    if (error) { box.innerHTML = `<p class="muted">Couldn't load: ${esc(error.message)}</p>`; return; }
+    const players = (data || []).filter(p => p.name && p.name.trim());
+    if (!players.length) {
+      box.innerHTML = `<p class="muted">No players yet — sign in to be the first on the board.</p>`;
+      return;
+    }
+    box.innerHTML =
+      `<div class="lb-head"><span>#</span><span>Player</span><span>ELO</span><span>W–L</span></div>` +
+      players.map((p, i) =>
+        `<div class="lb-row">
+           <span class="rank">${i + 1}</span>
+           <span class="pname">${esc(p.name)}</span>
+           <span class="elo">${p.elo}</span>
+           <span class="record">${p.wins}–${p.losses}</span>
+         </div>`).join('');
+  }
+
+  // ---------- auth ----------
+  async function refreshAuth() {
+    const { data: { session } } = await sb.auth.getSession();
+    await renderAuth(session);
+  }
+
+  async function renderAuth(session) {
+    currentUser = (session && session.user) || null;
+    const authBox = $('#authArea');
+    const profileBox = $('#profileCard');
+    if (!currentUser) {
+      authBox.innerHTML = `<button class="btn" id="showLogin">Sign in</button>`;
+      $('#showLogin').onclick = showLoginForm;
+      profileBox.style.display = 'none';
+      return;
+    }
+    authBox.innerHTML =
+      `<span class="muted email">${esc(currentUser.email)}</span>` +
+      `<button class="btn ghost" id="signOut">Sign out</button>`;
+    $('#signOut').onclick = async () => { await sb.auth.signOut(); };
+    const { data: profile } = await sb
+      .from('profiles')
+      .select('id, name, phone, email, elo, wins, losses')
+      .eq('id', currentUser.id)
+      .maybeSingle();
+    renderProfile(profile);
+  }
+
+  function showLoginForm() {
+    const authBox = $('#authArea');
+    authBox.innerHTML =
+      `<form id="loginForm" class="inline-form">
+         <input type="email" id="loginEmail" placeholder="you@email.com" required>
+         <button class="btn" type="submit">Send link</button>
+       </form>`;
+    $('#loginForm').onsubmit = async (e) => {
+      e.preventDefault();
+      const email = $('#loginEmail').value.trim();
+      if (!email) return;
+      // redirect handled by the Site URL configured in Supabase
+      const { error } = await sb.auth.signInWithOtp({ email });
+      authBox.innerHTML = error
+        ? `<span class="muted">Error: ${esc(error.message)}</span>`
+        : `<span class="muted">✓ Check ${esc(email)} for your login link.</span>`;
+    };
+    $('#loginEmail').focus();
+  }
+
+  // ---------- profile ----------
+  function renderProfile(profile) {
+    const box = $('#profileCard');
+    box.style.display = 'block';
+    const incomplete = !profile || !profile.name;
+    if (incomplete) {
+      box.innerHTML =
+        `<h3>${profile ? 'Complete your profile' : 'Welcome! Set up your profile'}</h3>` +
+        `<p class="muted">Add your name to appear on the leaderboard.</p>` +
+        profileFormHtml(profile);
+      wireProfileForm(profile);
+    } else {
+      box.innerHTML =
+        `<div class="profile-summary">
+           <div>
+             <h3>${esc(profile.name)}</h3>
+             <p class="muted">ELO ${profile.elo} · ${profile.wins}–${profile.losses}</p>
+           </div>
+           <button class="btn ghost" id="editProfile">Edit</button>
+         </div>
+         <div id="profileFormSlot"></div>`;
+      $('#editProfile').onclick = () => {
+        $('#profileFormSlot').innerHTML = profileFormHtml(profile);
+        wireProfileForm(profile);
+      };
+    }
+  }
+
+  function profileFormHtml(profile) {
+    const name  = (profile && profile.name)  || '';
+    const phone = (profile && profile.phone) || '';
+    const email = (profile && profile.email) || (currentUser && currentUser.email) || '';
+    return `
+      <form id="profileForm" class="stack-form">
+        <label>Name <span class="req">*</span>
+          <input type="text" id="pfName" value="${esc(name)}" placeholder="Your name" required>
+        </label>
+        <label>Phone (optional — shown to other players for challenges)
+          <input type="tel" id="pfPhone" value="${esc(phone)}" placeholder="+1 555 123 4567">
+        </label>
+        <label>Contact email (optional)
+          <input type="email" id="pfEmail" value="${esc(email)}" placeholder="you@email.com">
+        </label>
+        <div class="form-actions">
+          <button class="btn" type="submit">Save</button>
+          <span id="pfMsg" class="muted"></span>
+        </div>
+      </form>`;
+  }
+
+  function wireProfileForm(profile) {
+    const form = $('#profileForm');
+    if (!form) return;
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const name  = $('#pfName').value.trim();
+      const phone = $('#pfPhone').value.trim() || null;
+      const email = $('#pfEmail').value.trim() || null;
+      const msg = $('#pfMsg');
+      if (!name) return;
+      msg.textContent = 'Saving…';
+      const res = profile
+        ? await sb.from('profiles').update({ name, phone, email }).eq('id', currentUser.id)
+        : await sb.from('profiles').insert({ id: currentUser.id, name, phone, email });
+      if (res.error) { msg.textContent = 'Error: ' + res.error.message; return; }
+      msg.textContent = '✓ Saved';
+      await refreshAuth();
+      await loadLeaderboard();
+    };
+  }
+
+  // ---------- init ----------
+  // onAuthStateChange callback defers work (avoids the auth-lock re-entrancy caveat)
+  sb.auth.onAuthStateChange((_event, session) => { setTimeout(() => renderAuth(session), 0); });
+  refreshAuth();
+  loadLeaderboard();
+</script>
+</body>
+</html>
