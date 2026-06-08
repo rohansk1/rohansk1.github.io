@@ -1,1 +1,6 @@
 .DS_Store
+
+# local tooling and secrets — never commit
+.claude/
+.env
+.env.local
