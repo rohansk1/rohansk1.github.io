@@ -23,78 +23,38 @@
   html { scroll-behavior: smooth; }
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    -webkit-font-smoothing: antialiased;
-    min-height: 100vh;
-    line-height: 1.5;
+    background: var(--bg); color: var(--text);
+    -webkit-font-smoothing: antialiased; min-height: 100vh; line-height: 1.5;
   }
-  .nebula {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  }
+  .nebula { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
   .nebula::before {
-    content: ''; position: absolute;
-    width: 700px; height: 700px; top: -25%; right: -15%;
+    content: ''; position: absolute; width: 700px; height: 700px; top: -25%; right: -15%;
     background: radial-gradient(circle, rgba(200,240,77,0.05), transparent 70%);
     border-radius: 50%; filter: blur(90px);
   }
   a { color: inherit; }
   .wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
 
-  /* ===== nav ===== */
-  nav {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 0; border-bottom: 1px solid var(--line); margin-bottom: 40px;
-  }
-  .home-link {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    color: var(--text-dim); text-decoration: none; letter-spacing: 0.04em;
-    transition: color 0.2s;
-  }
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--line); margin-bottom: 40px; }
+  .home-link { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
   .home-link:hover { color: var(--text); }
   #authArea { display: flex; align-items: center; gap: 12px; }
   .email { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
 
-  /* ===== hero ===== */
   .hero { text-align: center; margin-bottom: 44px; }
   .hero .ball { font-size: 34px; line-height: 1; }
-  .hero h1 {
-    font-family: 'Instrument Serif', serif; font-weight: 400;
-    font-size: 44px; letter-spacing: -0.02em; margin-top: 6px;
-  }
-  .hero p {
-    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 300;
-    color: var(--text-dim); letter-spacing: 0.05em; margin-top: 10px;
-  }
+  .hero h1 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 44px; letter-spacing: -0.02em; margin-top: 6px; }
+  .hero p { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 300; color: var(--text-dim); letter-spacing: 0.05em; margin-top: 10px; }
 
-  /* ===== cards ===== */
-  .card {
-    background: var(--panel); border: 1px solid var(--line);
-    border-radius: 14px; padding: 22px; margin-bottom: 24px;
-  }
-  .card h2, .card h3 {
-    font-family: 'Instrument Serif', serif; font-weight: 400; letter-spacing: -0.01em;
-  }
-  .card h2 { font-size: 24px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px; margin-bottom: 24px; }
+  .card h2, .card h3 { font-family: 'Instrument Serif', serif; font-weight: 400; letter-spacing: -0.01em; }
   .card h3 { font-size: 20px; }
-  .section-label {
-    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 400;
-    text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-faint);
-    margin-bottom: 16px;
-  }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-faint); margin-bottom: 16px; }
   .muted { color: var(--text-dim); font-size: 13px; }
   .req { color: var(--tennis); }
 
-  /* ===== leaderboard ===== */
-  .lb-head, .lb-row {
-    display: grid; grid-template-columns: 36px 1fr 64px 64px;
-    align-items: center; gap: 8px; padding: 12px 6px;
-  }
-  .lb-head {
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-faint);
-    padding-top: 0; padding-bottom: 8px; border-bottom: 1px solid var(--line);
-  }
+  .lb-head, .lb-row { display: grid; grid-template-columns: 36px 1fr 64px 64px; align-items: center; gap: 8px; padding: 12px 6px; }
+  .lb-head { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-faint); padding-top: 0; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
   .lb-row { border-bottom: 1px solid rgba(255,255,255,0.035); }
   .lb-row:last-child { border-bottom: none; }
   .lb-row .rank { font-family: 'JetBrains Mono', monospace; color: var(--text-faint); font-size: 13px; }
@@ -103,42 +63,46 @@
   .elo { font-family: 'JetBrains Mono', monospace; color: var(--tennis); font-size: 14px; }
   .record { font-family: 'JetBrains Mono', monospace; color: var(--text-dim); font-size: 13px; }
 
-  /* ===== forms / buttons ===== */
-  .btn {
-    font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.03em;
-    background: var(--tennis); color: #0b0b06; border: none; border-radius: 8px;
-    padding: 9px 16px; cursor: pointer; font-weight: 400; transition: opacity 0.2s;
-  }
+  .btn { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.03em; background: var(--tennis); color: #0b0b06; border: none; border-radius: 8px; padding: 9px 16px; cursor: pointer; font-weight: 400; transition: opacity 0.2s; }
   .btn:hover { opacity: 0.85; }
   .btn.ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--line); }
   .btn.ghost:hover { color: var(--text); opacity: 1; }
   .inline-form { display: flex; gap: 8px; }
   .stack-form { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
-  .stack-form label {
-    display: flex; flex-direction: column; gap: 6px;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim);
-    letter-spacing: 0.03em;
-  }
-  input {
-    font-family: 'DM Sans', sans-serif; font-size: 14px;
-    background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px;
-    padding: 10px 12px; color: var(--text); outline: none; transition: border-color 0.2s;
-  }
-  input:focus { border-color: rgba(200,240,77,0.4); }
+  .stack-form > label { display: flex; flex-direction: column; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 0.03em; }
+  label.check { flex-direction: row; align-items: center; gap: 8px; cursor: pointer; }
+  label.check input { width: auto; }
+  input, select { font-family: 'DM Sans', sans-serif; font-size: 14px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; color: var(--text); outline: none; transition: border-color 0.2s; }
+  input:focus, select:focus { border-color: rgba(200,240,77,0.4); }
   .form-actions { display: flex; align-items: center; gap: 12px; }
   .profile-summary { display: flex; align-items: center; justify-content: space-between; }
   .profile-summary h3 { margin-bottom: 2px; }
 
-  footer {
-    text-align: center; padding: 40px 0 30px; margin-top: 20px;
-    border-top: 1px solid var(--line);
-    font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint);
-    letter-spacing: 0.05em;
-  }
-  @media (max-width: 600px) {
-    .hero h1 { font-size: 34px; }
-    .email { display: none; }
-  }
+  /* match logging */
+  .set-grid { display: grid; grid-template-columns: 54px 1fr 14px 1fr; gap: 8px; align-items: center; }
+  .set-grid .set-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); }
+  .set-grid .vs { text-align: center; color: var(--text-faint); }
+  .set-grid input { text-align: center; padding: 8px; }
+
+  /* matches list */
+  .match-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 6px; border-bottom: 1px solid rgba(255,255,255,0.035); }
+  .match-row:last-child { border-bottom: none; }
+  .match-main { font-size: 14px; }
+  .match-main b { font-weight: 600; }
+  .match-meta { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+  .tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-faint); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; margin-left: 6px; }
+  .del-btn { background: none; border: none; color: var(--text-faint); cursor: pointer; font-size: 15px; line-height: 1; padding: 4px; transition: color 0.2s; }
+  .del-btn:hover { color: var(--danger); }
+
+  /* directory */
+  .dir-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 6px; border-bottom: 1px solid rgba(255,255,255,0.035); }
+  .dir-row:last-child { border-bottom: none; }
+  .dir-contact { font-family: 'JetBrains Mono', monospace; font-size: 12px; display: flex; gap: 14px; }
+  .dir-contact a { color: var(--tennis); text-decoration: none; }
+  .dir-contact .none { color: var(--text-faint); }
+
+  footer { text-align: center; padding: 40px 0 30px; margin-top: 20px; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); letter-spacing: 0.05em; }
+  @media (max-width: 600px) { .hero h1 { font-size: 34px; } .email { display: none; } }
 </style>
 </head>
 <body>
@@ -152,19 +116,26 @@
   <div class="hero">
     <div class="ball">🎾</div>
     <h1>Tennis League</h1>
-    <p>challenge · play · climb the ladder</p>
+    <p>log results · climb the ELO ladder</p>
   </div>
 
   <div class="card" id="profileCard" style="display:none;"></div>
+  <div class="card" id="logCard" style="display:none;"></div>
 
   <div class="card">
     <div class="section-label">Leaderboard</div>
     <div id="leaderboard"><p class="muted">Loading…</p></div>
   </div>
 
-  <p class="muted" style="text-align:center; margin-bottom:30px;">
-    Match logging &amp; challenges are coming next. For now, sign in to claim your spot.
-  </p>
+  <div class="card">
+    <div class="section-label">Recent matches</div>
+    <div id="matches"><p class="muted">Loading…</p></div>
+  </div>
+
+  <div class="card" id="dirCard" style="display:none;">
+    <div class="section-label">Players &amp; contacts</div>
+    <div id="directory"></div>
+  </div>
 
   <footer>RSK Tennis League · powered by ELO</footer>
 </div>
@@ -173,34 +144,47 @@
   // ---- Supabase config (publishable key — safe to be public; protected by RLS) ----
   const SUPABASE_URL = 'https://ggebhuxjelhqhjtkvhkl.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_vOGk9AieEHNoeCi4ot53pA_TeJcmmXZ';
-  // implicit flow: the magic link works even if opened on a different device/browser
-  // than it was requested from (PKCE would bind it to the original device).
-  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
-    auth: { flowType: 'implicit' }
-  });
+  // implicit flow: magic link works even if opened on a different device than requested.
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { flowType: 'implicit' } });
 
   const $ = (s) => document.querySelector(s);
-  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g,
-    c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   let currentUser = null;
+  let profiles = [];   // [{id,name,elo,wins,losses}] ranked
+  let matches  = [];   // raw match rows
+  let players  = [];   // players view rows (logged-in only): incl. masked phone/email, is_me
 
-  // ---------- leaderboard (public) ----------
-  async function loadLeaderboard() {
-    const box = $('#leaderboard');
-    const { data, error } = await sb
-      .from('profiles')
-      .select('id, name, elo, wins, losses')
-      .order('elo', { ascending: false });
-    if (error) { box.innerHTML = `<p class="muted">Couldn't load: ${esc(error.message)}</p>`; return; }
-    const players = (data || []).filter(p => p.name && p.name.trim());
-    if (!players.length) {
-      box.innerHTML = `<p class="muted">No players yet — sign in to be the first on the board.</p>`;
-      return;
+  const nameOf = (id) => { const p = profiles.find(x => x.id === id); return p ? p.name : 'Unknown'; };
+
+  // ================= data =================
+  async function loadAll() {
+    const lb = await sb.from('profiles').select('id, name, elo, wins, losses').order('elo', { ascending: false });
+    profiles = (lb.data || []).filter(p => p.name && p.name.trim());
+
+    const mr = await sb.from('matches').select('*').order('created_at', { ascending: false }).limit(40);
+    matches = mr.data || [];
+
+    if (currentUser) {
+      const pv = await sb.from('players').select('*');
+      players = pv.data || [];
+    } else {
+      players = [];
     }
+
+    renderLeaderboard();
+    renderMatches();
+    renderProfileAndLog();
+    renderDirectory();
+  }
+
+  // ================= leaderboard =================
+  function renderLeaderboard() {
+    const box = $('#leaderboard');
+    if (!profiles.length) { box.innerHTML = `<p class="muted">No players yet — sign in and set your name to start the board.</p>`; return; }
     box.innerHTML =
       `<div class="lb-head"><span>#</span><span>Player</span><span>ELO</span><span>W–L</span></div>` +
-      players.map((p, i) =>
+      profiles.map((p, i) =>
         `<div class="lb-row">
            <span class="rank">${i + 1}</span>
            <span class="pname">${esc(p.name)}</span>
@@ -209,32 +193,72 @@
          </div>`).join('');
   }
 
-  // ---------- auth ----------
-  async function refreshAuth() {
-    const { data: { session } } = await sb.auth.getSession();
-    await renderAuth(session);
+  // ================= matches =================
+  function renderMatches() {
+    const box = $('#matches');
+    if (!matches.length) { box.innerHTML = `<p class="muted">No matches logged yet.</p>`; return; }
+    box.innerHTML = matches.map(m => {
+      const aWon = m.winner === m.player_a;
+      const winner = nameOf(aWon ? m.player_a : m.player_b);
+      const loser  = nameOf(aWon ? m.player_b : m.player_a);
+      const score = (m.sets || []).map(s => aWon ? `${s.a}-${s.b}` : `${s.b}-${s.a}`).join(', ');
+      const friendly = m.counts_for_elo ? '' : `<span class="tag">friendly</span>`;
+      const canDelete = currentUser && m.logged_by === currentUser.id;
+      const del = canDelete ? `<button class="del-btn" title="Delete this match" onclick="deleteMatch(${m.id})">✕</button>` : '';
+      return `<div class="match-row">
+        <div>
+          <div class="match-main"><b>${esc(winner)}</b> def. ${esc(loser)}${friendly}</div>
+          <div class="match-meta">${esc(score)} · ${esc(m.played_on || '')}</div>
+        </div>
+        ${del}
+      </div>`;
+    }).join('');
   }
 
-  async function renderAuth(session) {
+  window.deleteMatch = async (id) => {
+    if (!confirm('Delete this match? Its ELO and W–L effect will be undone.')) return;
+    const { error } = await sb.from('matches').delete().eq('id', id);
+    if (error) { alert('Could not delete: ' + error.message); return; }
+    await loadAll();
+  };
+
+  // ================= directory =================
+  function renderDirectory() {
+    const card = $('#dirCard'), box = $('#directory');
+    if (!currentUser || !players.length) { card.style.display = 'none'; return; }
+    card.style.display = 'block';
+    box.innerHTML = players
+      .slice()
+      .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
+      .map(p => {
+        const bits = [];
+        if (p.phone) bits.push(`<a href="sms:${esc(p.phone)}">📱 ${esc(p.phone)}</a>`);
+        if (p.email) bits.push(`<a href="mailto:${esc(p.email)}">✉️ ${esc(p.email)}</a>`);
+        const contact = bits.length ? bits.join('') : `<span class="none">no shared contact</span>`;
+        return `<div class="dir-row">
+          <span class="pname">${esc(p.name)}${p.is_me ? ' <span class="muted">(you)</span>' : ''}</span>
+          <span class="dir-contact">${contact}</span>
+        </div>`;
+      }).join('');
+  }
+
+  // ================= auth =================
+  async function refreshAuth() {
+    const { data: { session } } = await sb.auth.getSession();
     currentUser = (session && session.user) || null;
+    renderAuthArea();
+    await loadAll();
+  }
+
+  function renderAuthArea() {
     const authBox = $('#authArea');
-    const profileBox = $('#profileCard');
     if (!currentUser) {
       authBox.innerHTML = `<button class="btn" id="showLogin">Sign in</button>`;
       $('#showLogin').onclick = showLoginForm;
-      profileBox.style.display = 'none';
       return;
     }
-    authBox.innerHTML =
-      `<span class="muted email">${esc(currentUser.email)}</span>` +
-      `<button class="btn ghost" id="signOut">Sign out</button>`;
+    authBox.innerHTML = `<span class="muted email">${esc(currentUser.email)}</span><button class="btn ghost" id="signOut">Sign out</button>`;
     $('#signOut').onclick = async () => { await sb.auth.signOut(); };
-    const { data: profile } = await sb
-      .from('profiles')
-      .select('id, name, elo, wins, losses')
-      .eq('id', currentUser.id)
-      .maybeSingle();
-    renderProfile(profile);
   }
 
   function showLoginForm() {
@@ -248,58 +272,98 @@
       e.preventDefault();
       const email = $('#loginEmail').value.trim();
       if (!email) return;
-      // redirect handled by the Site URL configured in Supabase
       const { error } = await sb.auth.signInWithOtp({ email });
-      authBox.innerHTML = error
-        ? `<span class="muted">Error: ${esc(error.message)}</span>`
-        : `<span class="muted">✓ Check ${esc(email)} for your login link.</span>`;
+      if (error) {
+        // Most common reason for a new email is "not on the whitelist".
+        authBox.innerHTML = `<span class="muted">Couldn't send a link. If you're new, your email may not be approved yet — ask Rohan to add you.</span>`;
+      } else {
+        authBox.innerHTML = `<span class="muted">✓ Check ${esc(email)} for your login link.</span>`;
+      }
     };
     $('#loginEmail').focus();
   }
 
-  // ---------- profile ----------
-  function renderProfile(profile) {
-    const box = $('#profileCard');
-    box.style.display = 'block';
-    const incomplete = !profile || !profile.name;
-    if (incomplete) {
-      box.innerHTML =
-        `<h3>${profile ? 'Complete your profile' : 'Welcome! Set up your profile'}</h3>` +
-        `<p class="muted">Add your name to appear on the leaderboard.</p>` +
-        profileFormHtml(profile);
-      wireProfileForm(profile);
+  // ================= profile + log cards =================
+  function renderProfileAndLog() {
+    const pCard = $('#profileCard'), lCard = $('#logCard');
+    if (!currentUser) { pCard.style.display = 'none'; lCard.style.display = 'none'; return; }
+
+    const basic = profiles.find(p => p.id === currentUser.id);   // ranked row (has name) or undefined
+    const mine  = players.find(p => p.is_me) || null;            // full row incl. own contact/shares
+    const hasProfile = !!basic;
+
+    // ---- profile card ----
+    pCard.style.display = 'block';
+    if (!hasProfile) {
+      pCard.innerHTML = `<h3>Welcome! Set up your profile</h3>
+        <p class="muted">Add your name to appear on the leaderboard and log matches.</p>` + profileFormHtml(null);
+      wireProfileForm(false);
     } else {
-      box.innerHTML =
+      pCard.innerHTML =
         `<div class="profile-summary">
-           <div>
-             <h3>${esc(profile.name)}</h3>
-             <p class="muted">ELO ${profile.elo} · ${profile.wins}–${profile.losses}</p>
-           </div>
+           <div><h3>${esc(basic.name)}</h3><p class="muted">ELO ${basic.elo} · ${basic.wins}–${basic.losses}</p></div>
            <button class="btn ghost" id="editProfile">Edit</button>
-         </div>
-         <div id="profileFormSlot"></div>`;
-      $('#editProfile').onclick = () => {
-        $('#profileFormSlot').innerHTML = profileFormHtml(profile);
-        wireProfileForm(profile);
-      };
+         </div><div id="profileFormSlot"></div>`;
+      $('#editProfile').onclick = () => { $('#profileFormSlot').innerHTML = profileFormHtml(mine); wireProfileForm(true); };
     }
+
+    // ---- log match card ----
+    const opponents = profiles.filter(p => p.id !== currentUser.id);
+    if (!hasProfile) { lCard.style.display = 'none'; return; }
+    if (!opponents.length) {
+      lCard.style.display = 'block';
+      lCard.innerHTML = `<div class="section-label">Log a match</div><p class="muted">No opponents yet — once another player joins, you can log matches.</p>`;
+      return;
+    }
+    lCard.style.display = 'block';
+    lCard.innerHTML =
+      `<div class="section-label">Log a match</div>
+       <form id="logForm" class="stack-form">
+         <label>Opponent <span class="req">*</span>
+           <select id="mOpp" required>
+             <option value="">Select…</option>
+             ${opponents.map(o => `<option value="${o.id}">${esc(o.name)}</option>`).join('')}
+           </select>
+         </label>
+         <div class="muted" style="margin-top:4px;">Score (your games – their games, per set)</div>
+         ${[1,2,3].map(i => `
+           <div class="set-grid">
+             <span class="set-label">Set ${i}</span>
+             <input type="number" id="set${i}a" min="0" max="30" placeholder="you">
+             <span class="vs">–</span>
+             <input type="number" id="set${i}b" min="0" max="30" placeholder="them">
+           </div>`).join('')}
+         <label class="check"><input type="checkbox" id="mFriendly"> Friendly (don't count toward ratings)</label>
+         <div class="form-actions"><button class="btn" type="submit">Log match</button><span id="mMsg" class="muted"></span></div>
+       </form>`;
+    $('#logForm').onsubmit = submitMatch;
   }
 
-  function profileFormHtml(profile) {
-    const name = (profile && profile.name) || '';
+  function profileFormHtml(p) {
+    const name  = (p && p.name)  || '';
+    const phone = (p && p.phone) || '';
+    const email = (p && p.email) || (currentUser && currentUser.email) || '';
+    const sp = (p && p.share_phone) ? 'checked' : '';
+    const se = (p && p.share_email) ? 'checked' : '';
     return `
       <form id="profileForm" class="stack-form">
         <label>Name <span class="req">*</span>
           <input type="text" id="pfName" value="${esc(name)}" placeholder="Your name" required>
         </label>
-        <div class="form-actions">
-          <button class="btn" type="submit">Save</button>
-          <span id="pfMsg" class="muted"></span>
-        </div>
+        <label>Phone
+          <input type="tel" id="pfPhone" value="${esc(phone)}" placeholder="+1 555 123 4567">
+        </label>
+        <label class="check"><input type="checkbox" id="pfSharePhone" ${sp}> Share my phone with other players</label>
+        <label>Contact email
+          <input type="email" id="pfEmail" value="${esc(email)}" placeholder="you@email.com">
+        </label>
+        <label class="check"><input type="checkbox" id="pfShareEmail" ${se}> Share my email with other players</label>
+        <p class="muted">Contact info is hidden by default and never shown publicly. Sharing reveals it only to signed-in league members.</p>
+        <div class="form-actions"><button class="btn" type="submit">Save</button><span id="pfMsg" class="muted"></span></div>
       </form>`;
   }
 
-  function wireProfileForm(profile) {
+  function wireProfileForm(exists) {
     const form = $('#profileForm');
     if (!form) return;
     form.onsubmit = async (e) => {
@@ -307,22 +371,60 @@
       const name = $('#pfName').value.trim();
       const msg = $('#pfMsg');
       if (!name) return;
+      const payload = {
+        name,
+        phone: $('#pfPhone').value.trim() || null,
+        email: $('#pfEmail').value.trim() || null,
+        share_phone: $('#pfSharePhone').checked,
+        share_email: $('#pfShareEmail').checked,
+      };
       msg.textContent = 'Saving…';
-      const res = profile
-        ? await sb.from('profiles').update({ name }).eq('id', currentUser.id)
-        : await sb.from('profiles').insert({ id: currentUser.id, name });
+      const res = exists
+        ? await sb.from('profiles').update(payload).eq('id', currentUser.id)
+        : await sb.from('profiles').insert({ id: currentUser.id, ...payload });
       if (res.error) { msg.textContent = 'Error: ' + res.error.message; return; }
       msg.textContent = '✓ Saved';
-      await refreshAuth();
-      await loadLeaderboard();
+      await loadAll();
     };
   }
 
-  // ---------- init ----------
-  // onAuthStateChange callback defers work (avoids the auth-lock re-entrancy caveat)
-  sb.auth.onAuthStateChange((_event, session) => { setTimeout(() => renderAuth(session), 0); });
+  // ================= log a match =================
+  async function submitMatch(e) {
+    e.preventDefault();
+    const msg = $('#mMsg');
+    const oppId = $('#mOpp').value;
+    if (!oppId) { msg.textContent = 'Pick an opponent.'; return; }
+
+    const sets = []; let sa = 0, sb_ = 0;
+    for (let i = 1; i <= 3; i++) {
+      const av = $('#set' + i + 'a').value.trim();
+      const bv = $('#set' + i + 'b').value.trim();
+      if (av === '' && bv === '') continue;
+      const a = parseInt(av, 10), b = parseInt(bv, 10);
+      if (isNaN(a) || isNaN(b) || a < 0 || b < 0) { msg.textContent = `Set ${i}: enter both games.`; return; }
+      if (a === b) { msg.textContent = `Set ${i} can't be a tie.`; return; }
+      sets.push({ a, b });
+      if (a > b) sa++; else sb_++;
+    }
+    if (!sets.length) { msg.textContent = 'Enter at least one set.'; return; }
+    if (sa === sb_) { msg.textContent = 'Someone has to win more sets.'; return; }
+
+    const me = currentUser.id;
+    const winner = sa > sb_ ? me : oppId;
+    const counts = !$('#mFriendly').checked;
+    msg.textContent = 'Saving…';
+    const { error } = await sb.from('matches').insert({
+      player_a: me, player_b: oppId, winner,
+      sets, sets_a: sa, sets_b: sb_,
+      counts_for_elo: counts, logged_by: me,
+    });
+    if (error) { msg.textContent = 'Error: ' + error.message; return; }
+    await loadAll();
+  }
+
+  // ================= init =================
+  sb.auth.onAuthStateChange((_e, session) => { setTimeout(refreshAuth, 0); });
   refreshAuth();
-  loadLeaderboard();
 </script>
 </body>
 </html>
