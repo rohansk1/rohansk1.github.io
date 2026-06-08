@@ -163,6 +163,8 @@ create table public.allowed_emails (
 );
 alter table public.allowed_emails enable row level security;
 revoke all on public.allowed_emails from anon, authenticated;
+-- the league-access Edge Function (service_role) reads/writes this table
+grant all on public.allowed_emails to service_role;
 
 create function public.enforce_email_allowlist()
 returns trigger language plpgsql security definer set search_path = public as $$
@@ -196,5 +198,7 @@ create table public.join_requests (
 alter table public.join_requests enable row level security;
 revoke all on public.join_requests from anon, authenticated;
 grant insert (email) on public.join_requests to anon, authenticated;
+-- the league-access Edge Function (service_role) reads/updates this table
+grant all on public.join_requests to service_role;
 create policy "Anyone can request access"
   on public.join_requests for insert to anon, authenticated with check (true);
