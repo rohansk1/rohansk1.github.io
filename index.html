@@ -948,6 +948,12 @@
             if (!panel.contains(e.target) && e.target !== sun) panel.classList.remove('active');
         });
 
+        // ===== TENNIS PLANET LINK =====
+        document.getElementById('planet-tennis').addEventListener('click', e => {
+            e.stopPropagation();
+            window.location.href = 'https://rohanskumar.com/tennis';
+        });
+
         // ===== CARD SPOTLIGHT =====
         document.querySelectorAll('.paper-card').forEach(card => {
             card.addEventListener('mousemove', e => {
