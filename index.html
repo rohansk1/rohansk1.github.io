@@ -18,6 +18,8 @@
             --ai-bg: rgba(167,139,250,0.06);
             --music: #f4a261;
             --music-bg: rgba(244,162,97,0.06);
+            --tennis: #c8f04d;
+            --tennis-bg: rgba(200,240,77,0.06);
             --sun-core: #fffaf0;
             --sun-warm: #f59e42;
             --sun-deep: #e8792b;
@@ -143,6 +145,7 @@
         .orbit-path-1 { width: 300px; height: 105px; transform: translate(-50%, -50%); }
         .orbit-path-2 { width: 440px; height: 154px; transform: translate(-50%, -50%); }
         .orbit-path-3 { width: 600px; height: 210px; transform: translate(-50%, -50%); }
+        .orbit-path-4 { width: 780px; height: 273px; transform: translate(-50%, -50%); }
 
         /* ===== SUN ===== */
         .sun {
@@ -298,6 +301,22 @@
         .planet-music:hover .planet-orb svg { opacity: 1; }
         .planet-music .planet-label { color: var(--music); }
         .planet-music .planet-connector { background: var(--music); }
+
+        /* Tennis */
+        .planet-tennis .planet-orb {
+            background: radial-gradient(circle at 35% 35%, rgba(200,240,77,0.13), rgba(200,240,77,0.03));
+            box-shadow: 0 0 14px rgba(200,240,77,0.08);
+        }
+        .planet-tennis .planet-orb svg { stroke: var(--tennis); opacity: 0.75; }
+        .planet-tennis:hover .planet-orb {
+            background: radial-gradient(circle at 35% 35%, rgba(200,240,77,0.22), rgba(200,240,77,0.06));
+            box-shadow: 0 0 24px rgba(200,240,77,0.2), 0 0 50px rgba(200,240,77,0.08);
+        }
+        .planet-tennis .planet-orb::before { background: radial-gradient(circle, rgba(200,240,77,0.18), transparent 70%); }
+        .planet-tennis .planet-orb::after { background: radial-gradient(circle, rgba(200,240,77,0.05), transparent 65%); }
+        .planet-tennis:hover .planet-orb svg { opacity: 1; }
+        .planet-tennis .planet-label { color: var(--tennis); }
+        .planet-tennis .planet-connector { background: var(--tennis); }
 
         /* ===== SUN PANEL ===== */
         .sun-panel {
@@ -629,6 +648,7 @@
             .orbit-path-1 { width: 200px; height: 70px; }
             .orbit-path-2 { width: 300px; height: 105px; }
             .orbit-path-3 { width: 420px; height: 147px; }
+            .orbit-path-4 { width: 560px; height: 196px; }
         }
     </style>
 </head>
@@ -648,6 +668,7 @@
             <div class="orbit-path orbit-path-1"></div>
             <div class="orbit-path orbit-path-2"></div>
             <div class="orbit-path orbit-path-3"></div>
+            <div class="orbit-path orbit-path-4"></div>
 
             <div class="solar-center">
                 <div class="sun" id="sun">
@@ -696,6 +717,18 @@
                 </div>
                 <div class="planet-connector"></div>
                 <div class="planet-label">Music</div>
+            </div>
+
+            <div class="planet planet-tennis" id="planet-tennis">
+                <div class="planet-orb">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M5.6 5.6a9 9 0 0 1 0 12.8"/>
+                        <path d="M18.4 5.6a9 9 0 0 0 0 12.8"/>
+                    </svg>
+                </div>
+                <div class="planet-connector"></div>
+                <div class="planet-label">Tennis</div>
             </div>
 
             <div class="sun-panel" id="sunPanel">
@@ -859,8 +892,8 @@
         // ===== ORBITS =====
         const TILT = 0.35;
         const RADII = {
-            desktop: [150, 220, 300],
-            mobile:  [100, 150, 210],
+            desktop: [150, 220, 300, 390],
+            mobile:  [100, 150, 210, 280],
         };
 
         function isMobile() { return window.innerWidth <= 700; }
@@ -869,6 +902,7 @@
             { el: document.getElementById('planet-quantum'), speed: 0.0055, angle: 0 },
             { el: document.getElementById('planet-ai'),      speed: 0.0035, angle: 2.094 },
             { el: document.getElementById('planet-music'),    speed: 0.0022, angle: 4.189 },
+            { el: document.getElementById('planet-tennis'),   speed: 0.0015, angle: 5.498 },
         ];
 
         function applyRadii() {
