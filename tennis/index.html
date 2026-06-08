@@ -173,7 +173,11 @@
   // ---- Supabase config (publishable key — safe to be public; protected by RLS) ----
   const SUPABASE_URL = 'https://ggebhuxjelhqhjtkvhkl.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_vOGk9AieEHNoeCi4ot53pA_TeJcmmXZ';
-  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  // implicit flow: the magic link works even if opened on a different device/browser
+  // than it was requested from (PKCE would bind it to the original device).
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: { flowType: 'implicit' }
+  });
 
   const $ = (s) => document.querySelector(s);
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g,
