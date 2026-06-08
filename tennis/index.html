@@ -273,8 +273,16 @@
       const email = $('#loginEmail').value.trim();
       if (!email) return;
       const { error } = await sb.auth.signInWithOtp({ email });
-      if (error) {
-        // A new email failing is almost always "not on the whitelist" — offer to request access.
+      if (!error) {
+        authBox.innerHTML = `<span class="muted">✓ Check ${esc(email)} for your login link.</span>`;
+        return;
+      }
+      const m = (error.message || '').toLowerCase();
+      if (error.status === 429 || m.includes('rate') || m.includes('security purposes') || m.includes('seconds')) {
+        // too many attempts in a short window — NOT an approval problem
+        authBox.innerHTML = `<span class="muted">Too many tries — wait a minute, then request a new link.</span>`;
+      } else if (m.includes('not approved') || m.includes('database error') || m.includes('not allow') || m.includes('signups')) {
+        // genuinely not on the whitelist — offer to request access
         if (confirm("You're not approved for the league yet.\n\nRequest access from Rohan?")) {
           const r = await sb.from('join_requests').insert({ email });
           authBox.innerHTML = r.error
@@ -285,7 +293,7 @@
           $('#showLogin2').onclick = showLoginForm;
         }
       } else {
-        authBox.innerHTML = `<span class="muted">✓ Check ${esc(email)} for your login link.</span>`;
+        authBox.innerHTML = `<span class="muted">Sign-in error: ${esc(error.message)}. Try again in a moment.</span>`;
       }
     };
     $('#loginEmail').focus();
