@@ -743,7 +743,7 @@
                     <a href="https://x.com/rohankumar" class="sun-panel-link">X/Twitter</a>
                     <a href="https://rohanskumar.substack.com/" class="sun-panel-link">Substack</a>
                     <a href="#" class="sun-panel-link">CV ↓</a>
-                    <a href="about.html" class="sun-panel-link sun-panel-link-about">More about me →</a>
+                    <a href="about.html" id="aboutLink" class="sun-panel-link sun-panel-link-about">More about me →</a>
                 </div>
             </div>
         </div>
@@ -872,6 +872,10 @@
     </footer>
 
     <script>
+        // ===== FEATURE FLAGS =====
+        // When false, the "More about me →" link is unwired from about.html and removed from the page.
+        const ENABLE_ABOUT_PAGE = false;
+
         // ===== STARS =====
         (() => {
             const c = document.getElementById('stars');
@@ -966,6 +970,14 @@
         document.addEventListener('click', e => {
             if (!panel.contains(e.target) && e.target !== sun) panel.classList.remove('active');
         });
+
+        // ===== ABOUT PAGE (feature-flagged) =====
+        // When ENABLE_ABOUT_PAGE is false, drop the "More about me →" link so it
+        // neither renders nor navigates to about.html.
+        if (!ENABLE_ABOUT_PAGE) {
+            const aboutLink = document.getElementById('aboutLink');
+            if (aboutLink) aboutLink.remove();
+        }
 
         // ===== TENNIS PLANET LINK =====
         document.getElementById('planet-tennis').addEventListener('click', e => {
