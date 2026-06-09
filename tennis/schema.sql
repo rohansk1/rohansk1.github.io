@@ -108,9 +108,9 @@ create policy "Anyone can view matches"
 create policy "Players can log a match they were in"
   on public.matches for insert to authenticated
   with check (logged_by = auth.uid() and auth.uid() in (player_a, player_b));
-create policy "The logger can delete their match"
+create policy "Players can delete a match they were in"
   on public.matches for delete to authenticated
-  using (logged_by = auth.uid());
+  using (auth.uid() in (player_a, player_b));
 
 -- ---------- ELO: applied on log, reversed on delete ----------
 create function public.apply_match_elo_insert()
