@@ -156,6 +156,30 @@ create trigger trg_match_elo_delete
   before delete on public.matches
   for each row execute function public.reverse_match_elo_delete();
 
+-- ---------- score validation: only real tennis set scores ----------
+-- Each set must be 6-0..6-4, 7-5, or 7-6. Rejects incomplete/garbage scores.
+create or replace function public.validate_match_sets() returns trigger language plpgsql as $$
+declare s jsonb; a int; b int; hi int; lo int;
+begin
+  if jsonb_typeof(new.sets) is distinct from 'array' or jsonb_array_length(new.sets) < 1 then
+    raise exception 'A match needs at least one set.';
+  end if;
+  for s in select * from jsonb_array_elements(new.sets) loop
+    if (s->>'a') !~ '^[0-9]+$' or (s->>'b') !~ '^[0-9]+$' then
+      raise exception 'Set scores must be whole numbers.';
+    end if;
+    a := (s->>'a')::int; b := (s->>'b')::int; hi := greatest(a,b); lo := least(a,b);
+    if not ((hi = 6 and lo <= 4) or (hi = 7 and lo in (5,6))) then
+      raise exception 'Invalid set score %-%: each set must be 6-0 to 6-4, 7-5, or 7-6.', a, b;
+    end if;
+  end loop;
+  return new;
+end $$;
+
+create trigger trg_validate_match_sets
+  before insert on public.matches
+  for each row execute function public.validate_match_sets();
+
 -- ---------- email whitelist ----------
 create table public.allowed_emails (
   email    text primary key,
