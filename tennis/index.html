@@ -203,7 +203,7 @@
       const loser  = nameOf(aWon ? m.player_b : m.player_a);
       const score = (m.sets || []).map(s => aWon ? `${s.a}-${s.b}` : `${s.b}-${s.a}`).join(', ');
       const friendly = m.counts_for_elo ? '' : `<span class="tag">friendly</span>`;
-      const canDelete = currentUser && m.logged_by === currentUser.id;
+      const canDelete = currentUser && (m.player_a === currentUser.id || m.player_b === currentUser.id);
       const del = canDelete ? `<button class="del-btn" title="Delete this match" onclick="deleteMatch(${m.id})">✕</button>` : '';
       return `<div class="match-row">
         <div>
