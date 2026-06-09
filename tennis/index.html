@@ -272,7 +272,10 @@
       e.preventDefault();
       const email = $('#loginEmail').value.trim();
       if (!email) return;
-      const { error } = await sb.auth.signInWithOtp({ email });
+      const { error } = await sb.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: 'https://rohanskumar.com/tennis/' },
+      });
       if (!error) {
         authBox.innerHTML = `<span class="muted">✓ Check ${esc(email)} for your login link.</span>`;
         return;
