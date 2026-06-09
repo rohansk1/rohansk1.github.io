@@ -272,6 +272,8 @@
       e.preventDefault();
       const email = $('#loginEmail').value.trim();
       if (!email) return;
+      const btn = $('#loginForm button');
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
       const { error } = await sb.auth.signInWithOtp({
         email,
         options: { emailRedirectTo: 'https://rohanskumar.com/tennis/' },
