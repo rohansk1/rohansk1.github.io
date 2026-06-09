@@ -231,9 +231,12 @@
       .slice()
       .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
       .map(p => {
+        // your own row should reflect what you actually share, same as everyone else's
+        const phoneVal = (p.is_me && !p.share_phone) ? null : p.phone;
+        const emailVal = (p.is_me && !p.share_email) ? null : p.email;
         const bits = [];
-        if (p.phone) bits.push(`<a href="sms:${esc(p.phone)}">📱 ${esc(p.phone)}</a>`);
-        if (p.email) bits.push(`<a href="mailto:${esc(p.email)}">✉️ ${esc(p.email)}</a>`);
+        if (phoneVal) bits.push(`<a href="sms:${esc(phoneVal)}">📱 ${esc(phoneVal)}</a>`);
+        if (emailVal) bits.push(`<a href="mailto:${esc(emailVal)}">✉️ ${esc(emailVal)}</a>`);
         const contact = bits.length ? bits.join('') : `<span class="none">no shared contact</span>`;
         return `<div class="dir-row">
           <span class="pname">${esc(p.name)}${p.is_me ? ' <span class="muted">(you)</span>' : ''}</span>
